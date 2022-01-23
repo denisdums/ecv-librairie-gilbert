@@ -17,7 +17,7 @@ const BookCard = ({book}) => {
     return (
         <article className='shadow-sm bg-white p-6'>
             <div className='square w-full'>
-                <a href={'/book/' + book.id} className='block absolute w-full h-full top-0 left-0'>
+                <a href={'/livre/' + book.id} className='block absolute w-full h-full top-0 left-0'>
                     <img src={url}
                          alt={book.fields.Titre}
                          className='w-full h-full object-contain object-center'/>

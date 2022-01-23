@@ -50,15 +50,42 @@ const BookPage = () => {
 
 const BookRender = ({book}) => {
     const [url, setUrl] = useState([]);
+    const [authors, setAuthors] = useState([]);
+    const [editors, setEditors] = useState([]);
+
     useEffect(() => {
         if (book.fields.Cover) {
             setUrl(book.fields.Cover[0].url)
         } else {
             setUrl(defaultCover)
         }
+        if (book.fields['Auteur(s)']) {
+            fetchAuthors(book.fields['Auteur(s)']).then(res => {
+                setAuthors(res)
+            })
+        }
+        if (book.fields.Editeur) {
+            fetchEditors(book.fields.Editeur).then(res => {
+                setEditors(res)
+            })
+        }
     }, [])
+
+    function fetchAuthors(authors) {
+        return Promise.all(
+            authors.map(async (author) => await (await fetch(base.apiUrl + 'Authors/' + author, base.headers)).json())
+        )
+    }
+
+    function fetchEditors(editors) {
+        return Promise.all(
+            editors.map(async (editor) => await (await fetch(base.apiUrl + 'Editors/' + editor, base.headers)).json())
+        )
+    }
+
     return (
         <div className='flex lg:flex-row flex-col-reverse'>
+            {console.log(book)}
             <div className='w-full lg:w-3/4'>
                 <h1 className='text-3xl'>{book.fields.Titre}</h1>
                 <div className='pt-1 flex justify-between items-center pr-10'>
@@ -69,10 +96,22 @@ const BookRender = ({book}) => {
                         {book.fields['Numérique'] === true ?
                             <small className='py-1 px-2 bg-violet-100 rounded text-violet-400'>Numérique</small> : ''}
                         {book.fields.Topic.map(topic => (
-                            <small className='py-1 px-2 bg-rose-100 rounded text-rose-400'>{topic}</small>
+                            <small key={topic} className='py-1 px-2 bg-rose-100 rounded text-rose-400'>{topic}</small>
                         ))}
                     </div>
                     {book.fields['Où le trouver'] ? <CartIcon url={book.fields['Où le trouver']}/> : ''}
+                </div>
+                <div className='pt-10'>
+                    <div>
+                        Auteur{authors.length > 1 ? 's' : ''}: {authors.map(author => (
+                        <span key={author.id}>{author.fields.Name}</span>
+                    ))}
+                    </div>
+                    <div>
+                        Editeur{authors.length > 1 ? 's' : ''}: {editors.map(editor => (
+                        <span key={editor.id}>{editor.fields.Name}</span>
+                    ))}
+                    </div>
                 </div>
             </div>
             <div className='w-full lg:w-1/4 mb-10 lg:mb-0'>
@@ -84,7 +123,6 @@ const BookRender = ({book}) => {
                     </div>
                 </div>
             </div>
-            {console.log(book)}
         </div>
     )
 }
@@ -92,7 +130,7 @@ const BookRender = ({book}) => {
 const BookNotFound = () => {
     return (
         <div>
-            <h1 className='text-8xl font-black mt-40 text-center text-slate-200'>Book not found</h1>
+            <h1 className='text-8xl font-black mt-40 text-center text-slate-200'>Livre non trouvé</h1>
         </div>
     )
 }
