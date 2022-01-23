@@ -10,21 +10,21 @@ function App() {
 
         <div className="container">
             <header className='py-10 flex items-center justify-between'>
-                <a href='/' className='text-3xl font-bold'>BookingBooks</a>
+                <a href='/' className='text-3xl font-bold'>Librairie Gilbert</a>
                 <nav>
                     <ul className='flex gap-4'>
-                        <li><a href="/authors">Authors</a></li>
-                        <li><a href="/">Books</a></li>
+                        <li><a href="/auteurs">Auteurs</a></li>
+                        <li><a href="/">Livres</a></li>
                     </ul>
                 </nav>
             </header>
             <Router>
                 <div>
                     <Switch>
-                        <Route path="/book">
+                        <Route path="/livre">
                             <Book/>
                         </Route>
-                        <Route path="/authors">
+                        <Route path="/auteurs">
                             <Authors/>
                         </Route>
                         <Route path="/">

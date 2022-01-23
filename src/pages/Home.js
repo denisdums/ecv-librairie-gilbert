@@ -47,7 +47,7 @@ function Home() {
                 {offsets.indexOf(currentOffset) - 1 >= 0 ?
                     <button className='py-2 px-6 bg-slate-300 rounded hover:bg-slate-400 text-white transition-all'
                             onClick={previousFetch}>Previous</button> : ''}
-                {offsets.indexOf(currentOffset) + 1 !== false ?
+                {offsets[offsets.indexOf(currentOffset) + 1] !== false ?
                     <button className='py-2 px-6 bg-sky-300 rounded hover:bg-sky-400 text-white transition-all'
                             onClick={nextFetch}>Next</button> : ''}
             </div>
